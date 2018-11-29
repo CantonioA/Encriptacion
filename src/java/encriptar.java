@@ -7,7 +7,6 @@
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  *
@@ -17,84 +16,62 @@ import java.util.Arrays;
 @SessionScoped
 public class encriptar implements Serializable {
 
-//    public static void main(String[] args) {
-//        String contraseña;
-//        contraseña = "123456";
-//        int cantidad = contraseña.length();
-//        System.out.println("Contraseña " + contraseña);
-//        System.out.println("length: " + cantidad);
-//        if (isnu) {
-//            
-//        }
-//        for (int i = 0; i < cantidad; i++) {
-//            System.out.println("extrae :" + contraseña.charAt(i));
-//            int suma = Integer.parseInt(String.valueOf(contraseña.charAt(i)));
-//            suma = suma * 3;
-////            System.out.println(numero);
-//            System.out.println(suma);
-//
-//        }
-//    }
-//    public static boolean isNumeric(String cadena) {
-//
-//        boolean resultado;
-//
-//        try {
-//            Integer.parseInt(cadena);
-//            resultado = true;
-//        } catch (NumberFormatException excepcion) {
-//            resultado = false;
-//        }
-//
-//        return resultado;
-//    }
-    public static void main(String[] args) {
-        String cadena = "HOLA ";
+    public static void encriptars(String Contraseña) {
+        String rstAscii = "";
         int numero;
         String resultado = "";
-        int nameLenght = cadena.length(); // contar caracteres
-        for (int i = 0; i < nameLenght; i++) {   // while counting characters if less than the length add one        
-            char character = cadena.charAt(i); // start on the first character
-            int ascii = (int) character; //convert the first character
-//            System.out.println(character + " = " + ascii); // print the character and it's value in ascii
-            resultado = resultado + " " + ascii;
+        int cantidadcaracteres = Contraseña.length();//Contar caracteres
+
+        for (int i = 0; i < cantidadcaracteres; i++) {
+            char character = Contraseña.charAt(i);//desmenuzar
+            int ascii = (int) character; // convertirlo en numero
+//            System.out.println(character);
+//            System.out.println(character + " = " + ascii); // imprimir el cada letra y numero
+            rstAscii = rstAscii + " " + ascii;
         }
-        System.out.println(resultado);
-        resultado = resultado.substring(1);// borrar el primer espacio
-        resultado = resultado.replace(" ", ",");// remplazo los espacions con ','
-        String[] numerocadena = resultado.split(",");
-        System.out.println(Arrays.toString(numerocadena));
+//        System.out.println(rstAscii);
+        rstAscii = rstAscii.substring(1);// borrar el primer espacio
+//        rstAscii = rstAscii.replace(" ", ",");// remplazo los espacions con ','
+        String[] numerocadena = rstAscii.split(" "); // numeros estan separados por espacio
         for (int i = 0; i < numerocadena.length; i++) {
             numero = Integer.valueOf(numerocadena[i]);
-            if (numero % 2 == 0) {
-                System.out.println(" es divisible" + numero);
-                numero = numero * 16;
-            }
-            System.out.println(numero); // desmenuzar array
+            numero = numero * 16;
+            resultado = resultado + " " + String.valueOf(numero); // convertirlo a String
+//            System.out.println(resultado); // desmenuzar array
         }
-        
-        
-        
+        System.out.println(resultado); // desmenuzar array
+        String str = resultado;
+        String result = "";
+        char[] messChar = str.toCharArray();
+        for (int i = 0; i < messChar.length; i++) {
+            result += Integer.toBinaryString(messChar[i]) + " ";
+        }
+        System.out.println(result);
+    }
 
-//        if (isNumeric(cadena) == true) {
-//            numero = Integer.parseInt(cadena);
-//            int cantidad = cadena.length();
-//            System.out.println("Contraseña " + cadena);
-//            System.out.println("length: " + cantidad);
-//            String Resultado = "";
-//            for (int i = 0; i < cantidad; i++) {
-//                System.out.println("extrae :" + cadena.charAt(i));
-//                int suma = Integer.parseInt(String.valueOf(cadena.charAt(i)));
-//                suma = suma * 3;
-//                Resultado = Resultado + " " + String.valueOf(suma);
-//                System.out.println(suma);
-//                System.out.println("Numero: " + numero);
-//            }
-//            System.out.println("resultado final:" + Resultado);
-//        } else {
-//            String resultado = "";
-//         
-//
-//        }
+    public static void desifrar(String contraseña) {
+        int numero = 0;
+        char caracter = 0;
+        String rpt = "";
+        String resultado = "";//(String) cadena a convertir
+
+        for (String s : contraseña.split(" ")) { //los numeros estan separados por espacios
+            resultado += String.valueOf((char) Integer.parseInt(s, 2));// concatenar
+        }
+        System.out.println("desifrado binario " + resultado);
+             resultado = resultado.substring(1);// borrar el primer espacio
+        String[] codigoascii = resultado.split(" "); // numeros estan separados por espacio
+        for (int a = 0; a <codigoascii.length; a++) {
+            numero = Integer.valueOf(codigoascii[a]);
+            numero = (numero / 16);
+            rpt += (char) numero;//desifrar
+            rpt = rpt + "" + caracter;//concatenar
+        }
+        System.out.println(rpt);
+    }
+
+    public static void main(String[] args) {
+        encriptars("hola que tal");
+        desifrar("100000 110001 110110 110110 110100 100000 110001 110111 110111 110110 100000 110001 110111 110010 111000 100000 110001 110101 110101 110010 100000 110101 110001 110010 100000 110001 111000 110000 111000 100000 110001 111000 110111 110010 100000 110001 110110 110001 110110 100000 110101 110001 110010 100000 110001 111000 110101 110110 100000 110001 110101 110101 110010 100000 110001 110111 110010 111000");
     }
 }
